@@ -3,9 +3,17 @@
 
 #### Table of Contents
 
+- [Installation](#installation)
 - [Available models](#available-models)
 - [Example](#example)
 
+### Installation 
+
+```
+git clone https://github.com/dembart/gnn-lib
+cd gnn-lib
+pip install .
+```
 
 #### Available models:
 
