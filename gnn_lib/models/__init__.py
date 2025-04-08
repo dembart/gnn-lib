@@ -1,0 +1,1 @@
+from .cgcnn import CrystalGraphConvNet as CGCNN

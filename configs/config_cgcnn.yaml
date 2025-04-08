@@ -1,0 +1,75 @@
+seed: 42         # not used for now
+device: cuda
+num_workers: 0    # not tested
+model_name: cgcnn
+model_params:
+  n_conv: 3       # conv layers
+  n_h: 2          # hidden readout layers
+  h_fea_len: 64
+  num_embed_fea: 128
+  reduce_messages: add
+  reduce_nodes: mean
+  batch_norm_node_embed: True
+  batch_norm_hidden_layers: True
+  r_min: 1.0  # gaussian filter param
+  r_max: 8.0  # gaussian filter param
+  num_edge_fea: 64      
+
+atomic_types_mapper: from_scratch # "default", "from_scratch", "path/to/file" or a specified dictionary
+
+# atomic_types_mapper:
+#   C: 0
+#   H: 1
+#   S: 10
+
+data:
+  data_train: train.xyz # any ASE readable format
+  data_val: val.xyz
+  data_test: test.xyz
+  energy_key: your_key  # your saved ASE's list of atoms objects should contain "your_key" in atoms.info dict
+  forces_key: False       # not used for CGCNN
+  stress_key: False       # not used for CGCNN
+  r_cut: 4.5              # cutoff radius to build graph
+  n_max_neighbors: False  # False  or int, if int, will trancate max number of neighbors
+  processed_data_path: processed_data # if str will save processed files and will use it to rerun training
+  use_lmdb: False        # not well tested, uch slower compared to in-memory dataset
+  normalize_energy: False
+
+training:
+  batch_size: 256
+  num_epochs: 500
+  optimizer:  # see torch documentation for each optimizer to use proper params
+    type: Adam
+    params:
+      lr: 0.005
+      weight_decay: 0.0
+  scheduler: 
+    type: ReduceLROnPlateau # the only option for now
+    params: # see torch documentation for each scheduler to use proper params
+      factor: 0.5
+      patience: 20
+  
+loss:
+  type: EFSLoss # the only option by now
+  params:
+    energy_weight: 1.0
+    forces_weight: 0.0 # not implemented 
+    stress_weight: 0.0 # not implemented
+
+logging:
+  log_dir: logs
+  checkpoint_dir: checkpoints
+  checkpoint_freq: 50
+  metric: val_total_loss # or val_energy_loss, val_forces_loss, val_stress_loss
+  use_wandb: False
+  run_name: test_run #
+  wandb_entity: my_entity
+  wandb_project: my_project
+  
+
+
+
+
+
+
+
