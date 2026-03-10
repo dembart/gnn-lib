@@ -1,8 +1,40 @@
 from torch import nn
+import torch.nn.functional as F
 
 class EFSLoss(nn.Module):
 
-    def __init__(self, energy_weight = 1.0, forces_weight=0.0, stress_weight=0.0):
+    def __init__(self, energy_weight=1.0, forces_weight=0.1, stress_weight=0.01,
+                 huber_delta=0.1):
+        super(EFSLoss, self).__init__()
+        self.energy_weight = energy_weight
+        self.forces_weight = forces_weight
+        self.stress_weight = stress_weight
+        self.huber_delta = huber_delta
+
+    def forward(self, e_pred, e_target, f_pred=None, f_target=None, s_pred=None, s_target=None):
+        
+        energy_loss = F.huber_loss(e_pred, e_target, delta=self.huber_delta)
+        total_loss = self.energy_weight * energy_loss
+        
+        forces_loss = None
+        if f_pred is not None and f_target is not None:
+            forces_loss = F.huber_loss(f_pred, f_target, delta=self.huber_delta)
+            total_loss += self.forces_weight * forces_loss
+        
+        # Stress loss
+        stress_loss = None
+        if s_pred is not None and s_target is not None:
+            stress_loss = F.huber_loss(s_pred, s_target, delta=self.huber_delta)
+            total_loss += self.stress_weight * stress_loss
+
+        return energy_loss, forces_loss, stress_loss, total_loss
+
+
+
+
+class EFSLossOld(nn.Module):
+
+    def __init__(self, energy_weight=1.0, forces_weight=0.1, stress_weight=0.001):
         super(EFSLoss, self).__init__()
         self.energy_weight = energy_weight
         self.forces_weight = forces_weight

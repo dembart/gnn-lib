@@ -1,1 +1,1 @@
-from .cgcnn import CrystalGraphConvNet as CGCNN
+from .cgcnn import CrystalGraphConvNet

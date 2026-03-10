@@ -1,0 +1,1 @@
+from .cgcnn_calculator import CrystalGraphConvNetCalculator  as CGCNNCalculator

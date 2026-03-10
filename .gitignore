@@ -10,6 +10,15 @@ logs/*
 checkpoints/*
 processed_data_path/*
 wandb/*
+data/
+processed_data*
+checkpoints*
+.ipynb*
+logs*
+*.pth
+*.xyz
+*.cif
+*.grd
 
 # C extensions
 *.so
