@@ -23,4 +23,5 @@ pip install .
 ### Examples
 
 - [Train CGCNN on MatPES dataset](examples/cgcnn_matpes_pbe.ipynb)
+- [CGCNN ASE calculator](examples/cgcnn_ase_calculator.ipynb)
 - [Prepare data](examples/prepare_data.ipynb)

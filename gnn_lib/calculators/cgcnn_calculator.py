@@ -3,7 +3,7 @@ from pathlib import Path
 from ase.calculators.calculator import Calculator, all_changes
 
 from ..graph_data import atoms2data
-from ..data_utils import full_3x3_to_voigt_6_stress, get_cached_model
+from ..data_utils import full_3x3_to_voigt_6_stress
 from ..models.cgcnn import CrystalGraphConvNet
 from .utils import get_cached_model
 
@@ -32,7 +32,7 @@ class CrystalGraphConvNetCalculator(Calculator):
         if model == "matpes_pbe_small":
             checkpoint_path = get_cached_model(
                 model_name=model,
-                url="place_holder"
+                url="https://github.com/dembart/gnn-lib/raw/refs/heads/main/gnn_lib/pretrained_models/cgcnn_matpes_pbe_small.pt"
             )
 
         elif isinstance(model, str):
