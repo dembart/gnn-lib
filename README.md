@@ -22,7 +22,5 @@ pip install .
 
 ### Examples
 
+- [Train CGCNN on MatPES dataset](examples/cgcnn_matpes_pbe.ipynb)
 - [Prepare data](examples/prepare_data.ipynb)
-- [CGCNN](examples/cgcnn.ipynb)
-
-
